@@ -18,8 +18,7 @@ tree = discord.app_commands.CommandTree(client)
 
 @tree.command(
     name='start',
-    description='Starts a server',
-    guild=discord.Object(id=966113895288819722))
+    description='Starts a server')
 @discord.app_commands.describe(server='The server to start')
 async def startServer(interaction: discord.Interaction, server: Literal[tuple(pufferpanel_api.get_servers())]):
     await interaction.response.send_message('Starting ' + server + '!')
@@ -28,8 +27,7 @@ async def startServer(interaction: discord.Interaction, server: Literal[tuple(pu
 
 @tree.command(
     name='stop',
-    description='Stops a server',
-    guild=discord.Object(id=966113895288819722))
+    description='Stops a server')
 @discord.app_commands.describe(server='The server to stop')
 async def stopServer(interaction: discord.Interaction, server: Literal[tuple(pufferpanel_api.get_servers())]):
     await interaction.response.send_message('Stopping ' + server + '!')
@@ -38,7 +36,7 @@ async def stopServer(interaction: discord.Interaction, server: Literal[tuple(puf
 
 @client.event
 async def on_ready():
-    await tree.sync(guild=discord.Object(id=966113895288819722))
+    await tree.sync()
     print(f'We have logged in as {client.user}')
 
 
