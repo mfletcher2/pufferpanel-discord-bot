@@ -23,8 +23,11 @@ servers = pufferpanel_api.get_servers()
     description='Starts a server')
 @discord.app_commands.describe(server='The server to start')
 async def startServer(interaction: discord.Interaction, server: Literal[tuple(servers)]):
-    await interaction.response.send_message('Starting ' + server + '!')
-    pufferpanel_api.start_server(servers[server])
+    if not pufferpanel_api.get_server_status(servers[server]):
+        await interaction.response.send_message('Starting ' + server + '!')
+        pufferpanel_api.start_server(servers[server])
+    else:
+        await interaction.response.send_message(server + ' is already running!')
 
 
 @tree.command(
@@ -32,8 +35,11 @@ async def startServer(interaction: discord.Interaction, server: Literal[tuple(se
     description='Stops a server')
 @discord.app_commands.describe(server='The server to stop')
 async def stopServer(interaction: discord.Interaction, server: Literal[tuple(servers)]):
-    await interaction.response.send_message('Stopping ' + server + '!')
-    pufferpanel_api.stop_server(servers[server])
+    if pufferpanel_api.get_server_status(servers[server]):
+        await interaction.response.send_message('Stopping ' + server + '!')
+        pufferpanel_api.stop_server(servers[server])
+    else:
+        await interaction.response.send_message(server + ' is already stopped!')
 
 
 @tree.command(
