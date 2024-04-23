@@ -44,3 +44,9 @@ def start_server(server_id: str):
 def stop_server(server_id: str):
     print('Stopping server ' + server_id)
     r = requests.post(url + '/proxy/daemon/server/' + server_id + '/stop', params={}, headers=get_header())
+
+
+def get_server_status(server_id: str) -> bool:
+    print('Getting server status for ' + server_id)
+    r = requests.get(url + '/proxy/daemon/server/' + server_id + '/status', headers=get_header())
+    return r.json()['running']
